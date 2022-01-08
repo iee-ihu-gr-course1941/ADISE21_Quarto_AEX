@@ -1,8 +1,8 @@
 <?php 
-    function show_board() {
+    function show_status() {
         global $mysqli;
 
-        $sql = 'select * from board';
+        $sql = 'select * from game_status';
         $st = $mysqli->prepare($sql);
         
         $st->execute();
@@ -12,12 +12,4 @@
         print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
     }
 
-
-    function reset_board() {
-        global $mysqli;
-
-        $sql = 'call clean_board()';
-        $mysqli->query($sql);
-        show_board();
-    }
 ?>
