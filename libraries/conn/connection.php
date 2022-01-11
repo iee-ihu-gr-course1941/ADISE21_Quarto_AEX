@@ -1,6 +1,6 @@
 <?php
 $host='localhost';
-$db = 'adise21Quarto';
+$db = 'adise2021Quarto';
 require_once "pass.php";
 
 $user=$DB_USER;
