@@ -1,6 +1,11 @@
+var me = {};
+var game_status = {};
+
 $(function(){
     draw_empty_board();
     fill_board();
+
+    //$('#quarto_login').click(login_to_game);
 });
 
 function draw_empty_board() {
