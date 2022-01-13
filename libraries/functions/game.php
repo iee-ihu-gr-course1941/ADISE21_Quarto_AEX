@@ -60,13 +60,13 @@ function update_game_status() {
 		case 0: $new_status='not active'; break;
 		case 1: $new_status='initialized'; break;
 		case 2: $new_status='started'; 
-				if($status['p_turn']==null) {
-					$new_turn='W'; // It was not started before...
+				if($status['player_turn']==null) {
+					$new_turn='Player_1'; 
 				}
 				break;
 	}
 
-	$sql = 'update game_status set status=?, p_turn=?';
+	$sql = 'update game_status set status=?, player_turn=?';
 	$st = $mysqli->prepare($sql);
 	$st->bind_param('ss',$new_status,$new_turn);
 	$st->execute();
