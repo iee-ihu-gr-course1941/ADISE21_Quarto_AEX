@@ -23,6 +23,7 @@ function draw_empty_board() {
     $('#quarto_board').html(t);
 }
 
+
 function fill_pieces(){
     $.ajax({url: "quarto.php/board/piecesload/", success: fill_pieces_by_data});
 }
