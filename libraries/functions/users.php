@@ -40,7 +40,7 @@ function set_user($b,$input) {
 		print json_encode(['errormesg'=>"Player $b is already set. Please select another Player."]);
 		exit;
 	}
-	$sql = 'update players set username=?, token=md5(CONCAT( ?, NOW()))  where player_id=?';
+	$sql = 'insert into players set username=?, token=md5(CONCAT( ?, NOW())), player_id=?';
 	$st2 = $mysqli->prepare($sql);
 	$st2->bind_param('sss',$username,$username,$b);
 	$st2->execute();

@@ -4,6 +4,7 @@ var game_status = {};
 $(function(){
     draw_empty_board();
     fill_board();
+    fill_pieces();
 
     $('#quarto_login').click(login_to_game);
 });
@@ -21,6 +22,10 @@ function draw_empty_board() {
     $('#quarto_board').html(t);
 }
 
+function fill_pieces(){
+    $.ajax({url: "quarto.php/board/piecesload/", success: fill_pieces_by_data});
+}
+
 function fill_board(){
     $.ajax({url: "quarto.php/board/", success: fill_board_by_data}); 
 }
@@ -31,6 +36,15 @@ function fill_board_by_data(data) {
         var id = '#circle_'+ o.posX + '_' + o.posY;
         var c = (o.piece==null)?o.posX + ',' + o.posY: o.piece;
         $(id).html(c);
+    }
+}
+
+function fill_pieces_by_data(data){
+    for(var i=0; i<data.length; i++) {
+        var o = data[i];
+        var id = o.piece_id;
+        var c = o.piece_id;
+        $('#pieces_column option[value="'+id+'"]').text(c);
     }
 }
 
