@@ -2,6 +2,7 @@ var me = {};
 var game_status = {};
 
 $(function(){
+    $('#pieces').hide();
     draw_empty_board();
     fill_board();
     fill_pieces();
@@ -67,6 +68,7 @@ function login_to_game() {
 function login_result(data) {
     me = data[0];
     $('#game_initializer').hide();
+    $('#pieces').show();
     //update_info();
     //game_start();
 
