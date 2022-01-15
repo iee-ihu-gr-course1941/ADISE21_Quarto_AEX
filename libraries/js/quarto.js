@@ -35,22 +35,24 @@ function fill_board_by_data(data) {
 }
 
 function login_to_game() {
-    if ($('#username').val() == '') {
-        alert('You have to sat a valid username');
-        return;
-    }
-    $.ajax({url: "quarto.php/players/", 
+    // if ($('#username').val() == '') {
+    //     alert('You have to set a valid username');
+    //     return;
+    // }
+    var userName = $('#username').val();
+    var playerId = $('#player_id').val();
+    $.ajax({url: "quarto.php/players/"+ playerId, 
             method: 'PUT', 
             dataType: "json", 
             contentType: 'application/json',
-            data: JSON.stringify({username: $('#username').val()}),
+            data: JSON.stringify({username: userName, player_id: playerId}),
             success: login_result,
             error: login_error});
 }    
 
 function login_result(data) {
     me = data[0];
-    $('#gmae_initializer').hide();
+    $('#game_initializer').hide();
     //update_info();
     //game_start();
 

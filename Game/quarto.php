@@ -1,7 +1,7 @@
 <?php
 require_once "../libraries/conn/connection.php";
 require_once "../libraries/functions/board.php";
-require_once "../libraries/functions/gamePlay.php";
+require_once "../libraries/functions/game.php";
 require_once "../libraries/functions/users.php";
 
 
@@ -54,11 +54,11 @@ function handle_player($method, $p,$input) {
 	//			   else {header("HTTP/1.1 400 Bad Request"); 
 	//					 print json_encode(['errormesg'=>"Method $method not allowed here."]);}
     //                break;
-        case 'Player_1': 
-		case 'Player_2': handle_user($method, $b,$input);
+        case 'Player1': 
+		case 'Player2': handle_user($method, $b,$input);
 					break;
 		default: header("HTTP/1.1 404 Not Found");
-				 print json_encode(['errormesg'=>"Player $b not found."]);
+				 print json_encode(['errormesg'=>"Player $b not found sdfg."]);
                  break;
 	}
 }

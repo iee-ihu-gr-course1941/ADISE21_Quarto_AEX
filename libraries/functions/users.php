@@ -37,10 +37,10 @@ function set_user($b,$input) {
 	$r = $res->fetch_all(MYSQLI_ASSOC);
 	if($r[0]['c']>0) {
 		header("HTTP/1.1 400 Bad Request");
-		print json_encode(['errormesg'=>"Player $b is already set. Please select another color."]);
+		print json_encode(['errormesg'=>"Player $b is already set. Please select another Player."]);
 		exit;
 	}
-	$sql = 'update players set username=?, token=md5(CONCAT( ?, NOW()))  where piece_color=?';
+	$sql = 'update players set username=?, token=md5(CONCAT( ?, NOW()))  where player_id=?';
 	$st2 = $mysqli->prepare($sql);
 	$st2->bind_param('sss',$username,$username,$b);
 	$st2->execute();
@@ -48,7 +48,7 @@ function set_user($b,$input) {
 
 	
 	update_game_status();
-	$sql = 'select * from players where piece_color=?';
+	$sql = 'select * from players where player_id=?';
 	$st = $mysqli->prepare($sql);
 	$st->bind_param('s',$b);
 	$st->execute();
