@@ -1,11 +1,14 @@
 var me = {};
 var game_status = {};
+var last_update=new Date().getTime();
+var timer=null;
 
 $(function(){
     $('#pieces').hide();
     draw_empty_board();
     fill_board();
     fill_pieces();
+    //game_status_update();
 
     $('#quarto_login').click(login_to_game);
 });
@@ -70,8 +73,8 @@ function login_result(data) {
     me = data[0];
     $('#game_initializer').hide();
     $('#pieces').show();
-    //update_info();
-    //game_start();
+    update_info();
+    game_status_update();
 
 }
 
@@ -79,4 +82,36 @@ function login_error(data,y,z,c) {
     var x = data.responseJSON;
     alert(x.errormesg);
 }
+
+function update_status(data) {
+	last_update=new Date().getTime();
+	var game_stat_old = game_status;
+	game_status=data[0];
+	update_info();
+	clearTimeout(timer);
+	if(game_status.player_turn==me.player_id &&  me.player_id!=null) {
+		x=0;
+		// do play
+		if(game_stat_old.player_turn!=game_status.player_turn) {
+			fill_board();
+		}
+		$('#move_div').show(1000);
+		timer=setTimeout(function() { game_status_update();}, 15000);
+	} else {
+		// must wait for something
+		$('#move_div').hide(1000);
+		timer=setTimeout(function() { game_status_update();}, 4000);
+	}
+ 	
+}
+
+function update_info(){
+	$('#game_info').html("<b>I am Player : </b>"+me.player_id+"<br><b>Username : </b>"+me.username +'<br><b>Token : </b>'+me.token+'<br><b>Game state : </b>'+game_status.status+'<br><b>Turn : </b>'+ game_status.player_turn+'<b> must play now</b>');
+}
+
+function game_status_update() {
+	clearTimeout(timer);
+	$.ajax({url: "quarto.php/status/", success: update_status,headers: {"X-Token": me.token} });
+}
+
 

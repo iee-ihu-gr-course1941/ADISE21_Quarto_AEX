@@ -20,7 +20,7 @@ function show_status() {
 function check_abort() {
 	global $mysqli;
 	
-	$sql = "update game_status set status='aborded', result=if(p_turn='W','B','W'),p_turn=null where p_turn is not null and last_change<(now()-INTERVAL 5 MINUTE) and status='started'";
+	$sql = "update game_status set status='aborded', result=if(player_turn='Player1','Player2','W'),player_turn=null where player_turn is not null and last_change<(now()-INTERVAL 5 MINUTE) and status='started'";
 	$st = $mysqli->prepare($sql);
 	$r = $st->execute();
 }
@@ -61,7 +61,7 @@ function update_game_status() {
 		case 1: $new_status='initialized'; break;
 		case 2: $new_status='started'; 
 				if($status['player_turn']==null) {
-					$new_turn='Player_1'; 
+					$new_turn='Player1'; 
 				}
 				break;
 	}
