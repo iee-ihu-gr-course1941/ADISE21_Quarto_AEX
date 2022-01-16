@@ -16,31 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `Accounts`
---
-
-DROP TABLE IF EXISTS `Accounts`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Accounts` (
-  `username` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `surnname` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Accounts`
---
-
-LOCK TABLES `Accounts` WRITE;
-/*!40000 ALTER TABLE `Accounts` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Accounts` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `board`
 --
 
@@ -50,7 +25,7 @@ DROP TABLE IF EXISTS `board`;
 CREATE TABLE `board` (
   `posX` tinyint(4) NOT NULL,
   `posY` tinyint(4) NOT NULL,
-  `piece` enum('Y','N') DEFAULT NULL,
+  `piece` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`posX`,`posY`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -75,7 +50,7 @@ DROP TABLE IF EXISTS `board_empty`;
 CREATE TABLE `board_empty` (
   `posX` tinyint(4) NOT NULL,
   `posY` tinyint(4) NOT NULL,
-  `piece` enum('Y','N') DEFAULT NULL,
+  `piece` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`posX`,`posY`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -98,10 +73,10 @@ DROP TABLE IF EXISTS `game_status`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `game_status` (
-  `status` enum('not active','initialized','started','ended','aborded') NOT NULL DEFAULT 'not active',
-  `result` enum('Player 1','Player 2','Draw') DEFAULT NULL,
-  `player_turn` enum('Player 1','Player 2') DEFAULT NULL,
-  `last_change` timestamp NULL DEFAULT NULL
+  `status` enum('not active','initialized','started','ended','aborted') NOT NULL DEFAULT 'not active',
+  `result` enum('Player1','Player2','Draw') DEFAULT NULL,
+  `player_turn` enum('Player1','Player2') DEFAULT 'Player1',
+  `last_change` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -111,6 +86,7 @@ CREATE TABLE `game_status` (
 
 LOCK TABLES `game_status` WRITE;
 /*!40000 ALTER TABLE `game_status` DISABLE KEYS */;
+INSERT INTO `game_status` VALUES ('not active',NULL,'Player1','2022-01-16 12:07:24');
 /*!40000 ALTER TABLE `game_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,7 +154,11 @@ DROP TABLE IF EXISTS `players`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `players` (
-  `username` varchar(50) DEFAULT NULL
+  `username` varchar(50) DEFAULT NULL,
+  `token` varchar(50) DEFAULT NULL,
+  `last_action` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `player_id` enum('Player1','Player2') NOT NULL DEFAULT 'Player1',
+  PRIMARY KEY (`player_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -188,6 +168,7 @@ CREATE TABLE `players` (
 
 LOCK TABLES `players` WRITE;
 /*!40000 ALTER TABLE `players` DISABLE KEYS */;
+INSERT INTO `players` VALUES (NULL,NULL,'2022-01-16 12:07:04','Player1'),(NULL,NULL,'2022-01-16 12:07:15','Player2');
 /*!40000 ALTER TABLE `players` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -245,4 +226,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-01-06 18:22:34
+-- Dump completed on 2022-01-16 14:10:48
