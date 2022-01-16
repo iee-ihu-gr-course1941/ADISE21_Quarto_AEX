@@ -67,7 +67,7 @@ function handle_user($method, $b,$input) {
     }
 }
 
-function current_color($token) {
+function current_player($token) {
 	
 	global $mysqli;
 	if($token==null) {return(null);}
@@ -77,7 +77,7 @@ function current_color($token) {
 	$st->execute();
 	$res = $st->get_result();
 	if($row=$res->fetch_assoc()) {
-		return($row['piece_color']);
+		return($row['player_id']);
 	}
 	return(null);
 }

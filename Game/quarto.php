@@ -8,6 +8,14 @@ require_once "../libraries/functions/users.php";
 $method = $_SERVER['REQUEST_METHOD'];
 $request = explode('/', trim($_SERVER['PATH_INFO'],'/'));
 $input = json_decode(file_get_contents('php://input'),true);
+if($input==null) {
+    $input=[];
+}
+if(isset($_SERVER['HTTP_X_TOKEN'])) {
+    $input['token']=$_SERVER['HTTP_X_TOKEN'];
+} else {
+    $input['token']='';
+}
 
 switch ($r = array_shift($request)) {
     case 'board' :
@@ -15,9 +23,9 @@ switch ($r = array_shift($request)) {
             case '':
             case null: handle_board($method);
                 break;  
-            case 'piece': handle_piece($method, $request[0], $request[1], $input);
+            case 'piece': handle_piece($method, $request, $input);
                 break;
-                case 'piecesload' : handle_piecesload($method);
+            case 'piecesload' : handle_piecesload($method);
             break;
             default: header("HTTP/1.1 404 Not Found");           
         }
@@ -57,8 +65,13 @@ function handle_piecesload($method) {
     }
 }  
 
- function handle_piece($method, $x, $y, $input) {
-    
+ function handle_piece($method, $pid, $input) {
+    if($method=='GET') {
+        show_piece($pid);
+    } else if ($method=='PUT') {
+        move_piece($pid,$input['x'],$input['y'],
+                   $input['token']);
+    }   
  }
 function handle_player($method, $p,$input) {
     switch ($b=array_shift($p)) {
