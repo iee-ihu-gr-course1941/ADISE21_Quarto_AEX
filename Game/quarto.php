@@ -69,7 +69,7 @@ function handle_piecesload($method) {
     if($method=='GET') {
         show_piece($pid);
     } else if ($method=='PUT') {
-        move_piece($pid,$input['x'],$input['y'],
+        move_piece($input['x'],$input['y'], $input['pid'],
                    $input['token']);
     }   
  }

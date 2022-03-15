@@ -25,7 +25,7 @@ function show_board() {
         print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
     }
 
-    function move_piece($pid,$x2,$y2,$token) {
+    function move_piece($x2,$y2,$pid,$token) {
 	
         if($token==null || $token=='') {
             header("HTTP/1.1 400 Bad Request");

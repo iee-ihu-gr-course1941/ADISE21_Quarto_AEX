@@ -1,4 +1,4 @@
-var me = {};
+var me = {token:null, player_id:null};
 var game_status = {};
 var last_update=new Date().getTime();
 var timer=null;
@@ -112,7 +112,8 @@ function update_status(data) {
 function do_move() {
 	var s = $('#the_move').val();
 	var a = s.trim().split(/[ ]+/);
-    var pid = $('#pieces_column option:selected').val();
+    var pid = ""+$('#pieces_column option:selected').val();
+    console.log(pid);
 	if(a.length!=2) {
 		alert('Must give 2 numbers');
 		return;
@@ -121,7 +122,7 @@ function do_move() {
 			method: 'PUT',
 			dataType: "json",
 			contentType: 'application/json',
-			data: JSON.stringify( {x: a[0], y: a[1]}),
+			data: JSON.stringify( {x: a[0], y: a[1], pid:pid}),
 			headers: {"X-Token": me.token},
 			success: move_result,
 			error: login_error});
